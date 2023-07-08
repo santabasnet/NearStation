@@ -34,35 +34,35 @@ public class NearGraph {
     /**
      * Set a root vertex.
      */
-    public NearGraph setRoot(Vertex vertex){
+    public NearGraph setRoot(Vertex vertex) {
         this.root = vertex;
         return this;
     }
     
-    public Vertex getRoot(){
+    public Vertex getRoot() {
         return this.root;
     }
     
-    public Set<Vertex> vertices(){
+    public Set<Vertex> vertices() {
         return this.adjacentList.keySet();
     }
     
-    public Set<Edge> edges(){
+    public Set<Edge> edges() {
         return this.adjacentList.values().stream().flatMap(Collection::stream).collect(Collectors.toSet());
     }
     
     /**
      * Get root id.
      */
-    public int rootId(){
+    public int rootId() {
         return this.root.getId();
     }
     
-    public int countVertices(){
+    public int countVertices() {
         return this.adjacentList.keySet().size();
     }
     
-    public int countEdges(){
+    public int countEdges() {
         return this.adjacentList.values().stream().map(Set::size).reduce(0, Integer::sum);
     }
     
@@ -78,7 +78,7 @@ public class NearGraph {
                 .anyMatch(v -> Objects.equals(v.code(), code));
     }
     
-    public Optional<Vertex> vertexByLabel(String label){
+    public Optional<Vertex> vertexByLabel(String label) {
         return this.adjacentList.keySet().stream().filter(v -> Objects.equals(v.code(), label)).findAny();
     }
     
@@ -90,7 +90,7 @@ public class NearGraph {
          * Perform add operation of the given edge.
          */
         Optional<Vertex> source = vertexByLabel(newEdge.getSource());
-        if(source.isPresent()) {
+        if (source.isPresent()) {
             Set<Edge> edges = this.adjacentList.getOrDefault(source.get(), emptyEdges());
             edges.add(newEdge);
         }
@@ -135,5 +135,12 @@ public class NearGraph {
     @Override
     public String toString() {
         return SerializedGraph.from(root, this.adjacentList).toString();
+    }
+    
+    /**
+     * An empty graph.
+     */
+    public static NearGraph empty() {
+        return NearGraph.create();
     }
 }

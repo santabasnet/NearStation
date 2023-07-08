@@ -6,6 +6,7 @@ import edu.eec.nearmodel.Vertex;
 import edu.eec.nearutils.Conversion;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -42,24 +43,24 @@ public class Solution {
         return this.negativeCycle;
     }
     
-    public Map<String, Double> getDistances(){
+    public Map<String, Double> getDistances() {
         return this.distances;
     }
     
     /**
      * Returns the minimum distance.
      */
-    public Result minimumDistance(){
+    public Result minimumDistance() {
         /**
          * Remote the root itself from the solution.
          */
         this.distances.remove(graph.getRoot().code());
         String label = Collections.min(distances.entrySet(), Map.Entry.comparingByValue()).getKey();
-        Optional<Edge> edge = graph.edges().stream().filter(e->e.getDestination().equals(label)).findAny();
+        Optional<Edge> edge = graph.edges().stream().filter(e -> e.getDestination().equals(label)).findAny();
         Optional<Vertex> target = graph.vertexByLabel(label);
         
         boolean isSolutionAvailable = edge.isPresent() && target.isPresent() && !hasNegativeCycle();
-        if(isSolutionAvailable)
+        if (isSolutionAvailable)
             return new Result(graph.getRoot(), edge.get(), target.get());
         else
             return Result.empty();
@@ -71,6 +72,15 @@ public class Solution {
      */
     public static Solution from(Map<String, Double> distances, NearGraph graph, boolean negativeCycle) {
         return new Solution(distances, graph, negativeCycle);
+    }
+    
+    /**
+     * Its an empty instance of the solution.
+     *
+     * @return emptySolution
+     */
+    public static Solution empty() {
+        return new Solution(new HashMap<>(), NearGraph.empty(), false);
     }
     
     @Override

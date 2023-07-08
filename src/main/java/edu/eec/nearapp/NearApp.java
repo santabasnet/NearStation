@@ -1,6 +1,7 @@
 package edu.eec.nearapp;
 
 import edu.eec.nearcontroller.BellmanFordAlgorithm;
+import edu.eec.nearcontroller.Result;
 import edu.eec.nearcontroller.Solution;
 import edu.eec.nearmodel.Edge;
 import edu.eec.nearmodel.NearGraph;
@@ -72,8 +73,11 @@ public class NearApp {
                 .addEdge(v3ToV6).addEdge(v4ToV3).addEdge(v4ToV5)
                 .addEdge(v5ToV6);
         
+        System.out.println("Graph: " + nearGraph.toString());
+        
         Solution solution = new BellmanFordAlgorithm().execute(nearGraph);
-        System.out.println(solution.minimumDistance().toString());
+        Result result = solution.minimumDistance();
+        System.out.println("Result: \n" + result.toString());
     }
     
 }
